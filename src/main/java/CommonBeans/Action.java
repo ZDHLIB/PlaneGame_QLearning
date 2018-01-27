@@ -9,11 +9,13 @@ public enum Action {
     private String action;
     private int index;
 
-    
-
     Action(String action, int i) {
         this.action = action;
         this.index = i;
+    }
+
+    public static Action getActionByIndex(Integer index){
+        return Action.values()[index];
     }
 
     public String getAction() {
