@@ -54,12 +54,6 @@ public class run extends JFrame {
         //------- 6. 把背景图片添加到分层窗格的最底层作为背景 ----------------
         f.getLayeredPane().add(label,new Integer(Integer.MIN_VALUE));
         f.add(jTopology);
-
-        File file = new File("/home/zdh/Documents/Repository/QLearning/src/main/resources/imgs/music.mp3");
-        FileInputStream fis = new FileInputStream(file);
-        BufferedInputStream bis = new BufferedInputStream(fis);
-        Player player = new Player(bis);
-        player.play();
     }
 
 
@@ -74,7 +68,27 @@ public class run extends JFrame {
                 GenerateObject.generateOneStone(tp, i++, 900, 600);
             }
         };
+
+        final Runnable beeper2 = new Runnable() {
+            public void run() {
+                File file = new File("/home/zdh/Documents/Repository/QLearning/src/main/resources/imgs/music.mp3");
+                FileInputStream fis = null;
+                try {
+                    fis = new FileInputStream(file);
+                    BufferedInputStream bis = new BufferedInputStream(fis);
+                    Player player = new Player(bis);
+                    player.play();
+                    player.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (JavaLayerException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
         final ScheduledFuture beeperHandle = scheduler.scheduleAtFixedRate(beeper, 0, 1, SECONDS);
+        final ScheduledFuture beeperHandle2 = scheduler.scheduleAtFixedRate(beeper2, 0, 30, SECONDS);
         GenerateObject.generateOneBird(tp, 0, 900, 600);
 
         JTopology jTopology = new JTopology(tp);
@@ -85,7 +99,7 @@ public class run extends JFrame {
         scheduler.schedule(new Runnable() {
             public void run() {
                 beeperHandle.cancel(true);
-                scheduler.shutdown();
+//                scheduler.shutdown();
             }
         }, 60, SECONDS);
     }
