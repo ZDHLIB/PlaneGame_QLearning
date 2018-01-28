@@ -18,6 +18,8 @@ public class Q {
 
     private static HashMap<Integer, Integer> reward = new HashMap<Integer, Integer>();
 
+    private static Random random = new Random();
+
     static {
         reward.put(0,50);
         for(int i = 1000; i > 0; i--){
@@ -47,8 +49,14 @@ public class Q {
     }
 
     public Action getAction(int dis){
+        double r = random.nextInt(10)/10.0;
         if( qTable.containsKey(dis) ){
-            return getMaxAction(qTable.get(dis));
+            if( r < epsilon ){
+                return getRandomAction(qTable.get(dis));
+            }
+            else {
+                return getMaxAction(qTable.get(dis));
+            }
         }else {
             HashMap<Action, Double> map = new HashMap<Action, Double>();
             map.put(Action.DOWN, 0.0);
