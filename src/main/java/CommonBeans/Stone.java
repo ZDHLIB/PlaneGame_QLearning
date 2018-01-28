@@ -9,6 +9,7 @@ public class Stone extends Node {
 
     @Override
     public void onStart() {
+        this.setIcon("/imgs/stone.png");
         this.setCommunicationRange(0);
     }
 
