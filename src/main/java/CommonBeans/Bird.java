@@ -1,9 +1,12 @@
 package CommonBeans;
 
+import jbotsim.Link;
 import jbotsim.Message;
 import jbotsim.Node;
+import qcore.QOperation;
 
 import java.awt.*;
+import java.util.List;
 
 public class Bird extends Node {
 
@@ -12,9 +15,9 @@ public class Bird extends Node {
 
     @Override
     public void onStart() {
-        this.setSize(20);
-        this.setColor(new Color(177, 10, 13));
-        this.setCommunicationRange(50);
+        this.setIcon("/imgs/plane.png");
+        this.setSize(40);
+        this.setCommunicationRange(100);
     }
 
     @Override
@@ -22,6 +25,24 @@ public class Bird extends Node {
         // code to be executed by this node in each round
 //        move();
 //        wrapLocation();
+
+        int newY = (int) this.getY();
+        int dis = getShortestDistance(this.getOutNeighbors());
+        Action action = QOperation.makeDecision(dis);
+        switch (action){
+            case UP:
+                newY += 5;
+                this.setLocation(this.getX(), newY);
+                break;
+            case KEEP:
+                break;
+            case DOWN:
+                newY -= 5;
+                this.setLocation(this.getX(), newY);
+        }
+        wrapLocation();
+        int newDis = getShortestDistance(this.getOutNeighbors());
+        QOperation.updateQTable(dis, newDis, action);
     }
 
     @Override
@@ -34,19 +55,13 @@ public class Bird extends Node {
         // what to do when this node is selected by the user
     }
 
-    public static Integer getXx() {
-        return xx;
-    }
-
-    public static void setXx(Integer xx) {
-        Bird.xx = xx;
-    }
-
-    public static Integer getYy() {
-        return yy;
-    }
-
-    public static void setYy(Integer yy) {
-        Bird.yy = yy;
+    private Integer getShortestDistance(List<Node> nodes){
+        int dis = 999;
+        for(Node node : nodes){
+            if( node.getX() > this.getX() ) {
+                dis = (int) Math.min( dis, this.distance(node) );
+            }
+        }
+        return dis;
     }
 }
