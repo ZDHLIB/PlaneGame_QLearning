@@ -15,7 +15,7 @@ public class GenerateObject {
         Random random = new Random();
 
         int size = random.nextInt(15) + 5;
-        double direction = random.nextInt(60) / 100.0 + 0.7;
+        double direction = random.nextInt(40) / 100.0 + 0.8;
         int x = width;
         int y = random.nextInt(height);
 
@@ -27,10 +27,9 @@ public class GenerateObject {
 
     public static Bird generateOneBird(Topology tp,Integer id, Integer width, Integer height) {
         BirdBuilder birdBuilder = new BirdBuilder(Bird.class);
-        double x = width * 0.2;
+        double x = width * 0.4;
         double y = height / 2.0;
         birdBuilder.buildId(id);
-        System.out.print(x + " " + y);
         Bird bird = birdBuilder.build();
         tp.addNode(x, y, bird);
         return bird;
