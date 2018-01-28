@@ -87,8 +87,8 @@ public class run extends JFrame {
             }
         };
 
-        final ScheduledFuture beeperHandle = scheduler.scheduleAtFixedRate(beeper, 0, 1, SECONDS);
-        final ScheduledFuture beeperHandle2 = scheduler.scheduleAtFixedRate(beeper2, 0, 30, SECONDS);
+        final ScheduledFuture beeperHandle = scheduler.scheduleAtFixedRate(beeper, 0, 2, SECONDS);
+        final ScheduledFuture beeperHandle2 = scheduler.scheduleAtFixedRate(beeper2, 0, 29, SECONDS);
         GenerateObject.generateOneBird(tp, 0, 900, 600);
 
         JTopology jTopology = new JTopology(tp);
